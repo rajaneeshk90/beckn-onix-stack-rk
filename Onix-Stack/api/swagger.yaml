@@ -1366,6 +1366,1216 @@ paths:
                 required:
                   - answer
   
+  
+  /catalog/{resource}/{id}:
+    get:
+      tags:
+        - Catalog Management
+      description: Find aggregator catalog of a specific resource
+      parameters:
+        - name: resource
+          in: path
+          description: Name of the resource
+          required: true
+          schema:
+            type: string
+            enum:
+              - Provider
+              - Category
+              - Fulfillment
+              - Payment
+              - Agent
+        - name: id
+          in: path
+          description: ID of the Resource
+          required: true
+          schema:
+            oneOf:
+              - $ref: '#/components/schemas/Provider/properties/id'
+              - $ref: '#/components/schemas/Fulfillment/properties/id'
+              - $ref: '#/components/schemas/Category/properties/id'
+              - $ref: '#/components/schemas/Agent/properties/id'
+              - $ref: '#/components/schemas/Payment/properties/id'
+              - $ref: '#/components/schemas/XInput/properties/id'
+      responses:
+        default:
+          description: Successful fetch of resources from the catalog
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Item'
+                  - $ref: '#/components/schemas/Provider'
+                  - $ref: '#/components/schemas/Fulfillment'
+                  - $ref: '#/components/schemas/Category'
+                  - $ref: '#/components/schemas/Agent'
+                  - $ref: '#/components/schemas/Payment'
+                  - $ref: '#/components/schemas/XInput'
+    delete:
+      tags:
+        - Catalog Management
+      description: Update a resource to the catalog
+      parameters:
+        - name: resource
+          in: path
+          description: Name of the resource
+          required: true
+          schema:
+            type: string
+            enum:
+              - Provider
+              - Category
+              - Fulfillment
+              - Agent
+              - Payment
+        - name: id
+          in: path
+          description: ID of the Resource
+          required: true
+          schema:
+            oneOf:
+              - $ref: '#/components/schemas/Provider/properties/id'
+              - $ref: '#/components/schemas/Fulfillment/properties/id'
+              - $ref: '#/components/schemas/Category/properties/id'
+              - $ref: '#/components/schemas/Agent/properties/id'
+              - $ref: '#/components/schemas/Payment/properties/id'
+            
+      responses:
+        default:
+          description: Successful fetch of resources from the catalog
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Provider'
+                  - $ref: '#/components/schemas/Fulfillment'
+                  - $ref: '#/components/schemas/Category'
+                  - $ref: '#/components/schemas/Agent'
+                  - $ref: '#/components/schemas/Payment'
+    put:
+      tags:
+        - Catalog Management
+      description: Add a resource to the catalog
+      parameters:
+        - name: resource
+          in: path
+          description: Name of the resource
+          required: true
+          schema:
+            type: string
+            enum:
+              - Provider
+              - Item
+              - Category
+              - Fulfillment
+              - Agent
+              - Payment
+        - name: id
+          in: path
+          description: ID of the Resource
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              anyOf:
+                - $ref: '#/components/schemas/Provider'
+                - $ref: '#/components/schemas/Fulfillment'
+                - $ref: '#/components/schemas/Category'
+                - $ref: '#/components/schemas/Agent'
+                - $ref: '#/components/schemas/Payment'
+      responses:
+        default:
+          description: Successful fetch of resources from the catalog
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Item'
+                  - $ref: '#/components/schemas/Provider'
+                  - $ref: '#/components/schemas/Fulfillment'
+                  - $ref: '#/components/schemas/Category'
+                  - $ref: '#/components/schemas/Agent'
+                  - $ref: '#/components/schemas/Payment'
+  /catalog/{resource}:                
+    post:
+      tags:
+        - Catalog Management
+      description: Add a resource to the catalog
+      parameters:
+        - name: resource
+          in: path
+          description: Name of the resource
+          required: true
+          schema:
+            type: string
+            enum:
+              - Provider
+              - Item
+              - Category
+              - Fulfillment
+              - Agent
+              - Payment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              anyOf:
+                - $ref: '#/components/schemas/Item'
+                - $ref: '#/components/schemas/Provider'
+                - $ref: '#/components/schemas/Fulfillment'
+                - $ref: '#/components/schemas/Category'
+                - $ref: '#/components/schemas/Agent'
+                - $ref: '#/components/schemas/Payment'
+      responses:
+        default:
+          description: Successful fetch of resources from the catalog
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Item'
+                  - $ref: '#/components/schemas/Provider'
+                  - $ref: '#/components/schemas/Fulfillment'
+                  - $ref: '#/components/schemas/Category'
+                  - $ref: '#/components/schemas/Agent'
+                  - $ref: '#/components/schemas/Payment'
+  /catalog/provider/{providerId}/{resource}/{id}:
+    get:
+      tags:
+        - Catalog Management
+      description: Find catalog 
+      parameters:
+        - name: providerId
+          in: path
+          required: true
+          description: ID of the provider
+          schema:
+            $ref: '#/components/schemas/Provider/properties/id'
+        - name: resource
+          in: path
+          description: Name of the resource
+          required: true
+          schema:
+            type: string
+            enum:
+              - Item
+              - Category
+              - Fulfillment
+              - Payment
+              - Location
+        - name: id
+          in: path
+          description: ID of the resource in the provider's catalog
+          required: true
+          schema:
+            oneOf:
+              - $ref: '#/components/schemas/Item/properties/id'
+              - $ref: '#/components/schemas/Fulfillment/properties/id'
+              - $ref: '#/components/schemas/Location/properties/id'
+              - $ref: '#/components/schemas/Category/properties/id'
+              - $ref: '#/components/schemas/Agent/properties/id'
+              - $ref: '#/components/schemas/Payment/properties/id'
+      responses:
+        default:
+          description: Successful fetch of resources from the catalog
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Item'
+                  - $ref: '#/components/schemas/Location'
+                  - $ref: '#/components/schemas/Fulfillment'
+                  - $ref: '#/components/schemas/Category'
+                  - $ref: '#/components/schemas/Agent'
+                  - $ref: '#/components/schemas/Payment'
+    delete:
+      tags:
+        - Catalog Management
+      description: Update a resource to the catalog
+      parameters:
+        - name: providerId
+          in: path
+          description: ID of the provider where resource is being added
+          required: true
+          schema:
+            $ref: '#/components/schemas/Provider/properties/id'
+        - name: resource
+          in: path
+          description: Name of the resource
+          required: true
+          schema:
+            type: string
+            enum:
+              - Item
+              - Location
+              - Category
+              - Fulfillment
+              - Agent
+              - Payment
+        - name: id
+          in: path
+          description: ID of the resource in the provider's catalog
+          required: true
+          schema:
+            oneOf:
+              - $ref: '#/components/schemas/Item/properties/id'
+              - $ref: '#/components/schemas/Location/properties/id'
+              - $ref: '#/components/schemas/Fulfillment/properties/id'
+              - $ref: '#/components/schemas/Category/properties/id'
+              - $ref: '#/components/schemas/Agent/properties/id'
+              - $ref: '#/components/schemas/Payment/properties/id'
+            
+      responses:
+        default:
+          description: Successful fetch of resources from the catalog
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Item'
+                  - $ref: '#/components/schemas/Location'
+                  - $ref: '#/components/schemas/Fulfillment'
+                  - $ref: '#/components/schemas/Category'
+                  - $ref: '#/components/schemas/Agent'
+                  - $ref: '#/components/schemas/Payment'
+    put:
+      tags:
+        - Catalog Management
+      description: Update a resource in the provider's catalog
+      parameters:
+        - name: providerId
+          in: path
+          description: ID of the provider where resource is being added
+          required: true
+          schema:
+            $ref: '#/components/schemas/Provider/properties/id'
+        - name: resource
+          in: path
+          description: Name of the resource
+          required: true
+          schema:
+            type: string
+            enum:
+              - Item
+              - Location
+              - Category
+              - Fulfillment
+              - Agent
+              - Payment
+        - name: id
+          in: path
+          description: ID of the resource in the provider's catalog
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              anyOf:
+                - $ref: '#/components/schemas/Item'
+                - $ref: '#/components/schemas/Provider'
+                - $ref: '#/components/schemas/Fulfillment'
+                - $ref: '#/components/schemas/Category'
+                - $ref: '#/components/schemas/Agent'
+                - $ref: '#/components/schemas/Payment'
+      responses:
+        default:
+          description: Successful fetch of resources from the catalog
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Item'
+                  - $ref: '#/components/schemas/Provider'
+                  - $ref: '#/components/schemas/Fulfillment'
+                  - $ref: '#/components/schemas/Category'
+                  - $ref: '#/components/schemas/Agent'
+                  - $ref: '#/components/schemas/Payment'
+  /catalog/provider/{providerId}/{resource}:                
+    put:
+      tags:
+        - Catalog Management
+      description: Add a resource to the catalog
+      parameters:
+        - name: resource
+          in: path
+          description: Name of the resource
+          required: true
+          schema:
+            type: string
+            enum:
+              - Item
+              - Category
+              - Fulfillment
+              - Agent
+              - Payment
+        - name: providerId
+          in: path
+          description: ID of the provider where resource is being added
+          required: true
+          schema:
+            $ref: '#/components/schemas/Provider/properties/id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              anyOf:
+                  - $ref: '#/components/schemas/Item'
+                  - $ref: '#/components/schemas/Location'
+                  - $ref: '#/components/schemas/Fulfillment'
+                  - $ref: '#/components/schemas/Category'
+                  - $ref: '#/components/schemas/Agent'
+                  - $ref: '#/components/schemas/Payment'
+      responses:
+        default:
+          description: Successful fetch of resources from the catalog
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Item'
+                  - $ref: '#/components/schemas/Location'
+                  - $ref: '#/components/schemas/Fulfillment'
+                  - $ref: '#/components/schemas/Category'
+                  - $ref: '#/components/schemas/Agent'
+                  - $ref: '#/components/schemas/Payment'
+  
+  /inventory/checkAvailability/{resource}/{id}:
+    get:
+      tags:
+        - Inventory Management
+      description: Check availability of a resource in an inventory
+      parameters:
+        - name: resource
+          in: path
+          description: Name of the resource
+          required: true
+          schema:
+            type: string
+            enum:
+              - Item
+              - AddOn
+        - name: id
+          in: path
+          description: ID of the Resource
+          required: true
+          schema:
+            oneOf:
+              - $ref: '#/components/schemas/Item/properties/id'
+      responses:
+        default:
+          description: Successful fetch of resources from the catalog
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+  /inventory/item/add:
+    post:
+      tags:
+        - Inventory Management
+      description: Add Item to inventory
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Item' 
+      responses:
+        default:
+          description: Successful fetch of resources from the catalog
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+  /inventory/item/remove:
+    post:
+      tags:
+        - Inventory Management
+      description: Remove Item from inventory
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Item' 
+      responses:
+        default:
+          description: Successful fetch of resources from the catalog
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+  /inventory/item/block:
+    post:
+      tags:
+        - Inventory Management
+      description: Block Item in inventory
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Item' 
+      responses:
+        default:
+          description: Successful fetch of resources from the catalog
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+  /inventory/addOn/unblock:
+    post:
+      tags:
+        - Inventory Management
+      description: Unblock addOn in inventory
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Item' 
+      responses:
+        default:
+          description: Successful fetch of resources from the catalog
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+  /inventory/addOn/block:
+    post:
+      tags:
+        - Inventory Management
+      description: Block add-on in inventory
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Item' 
+      responses:
+        default:
+          description: Successful fetch of resources from the catalog
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+  /inventory/item/unblock:
+    post:
+      tags:
+        - Inventory Management
+      description: Add Item to inventory
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Item' 
+      responses:
+        default:
+          description: Successful fetch of resources from the catalog
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+
+  /quotation:
+    post:
+      tags:
+        - Quotation Management
+      description: Add Quotation (with breakup) to Order
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Order' 
+      responses:
+        default:
+          description: Order with updated quote
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+  /terms/cancellation:
+    post:
+      tags:
+        - Terms Management
+      description: Generate cancellation terms for an order
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Order'
+      responses:
+        default:
+          description: Successful fetch of cancellation terms
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CancellationTerm'
+
+  /orders:
+    post:
+      tags:
+        - Order Management
+      description: Fetch order history 
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Order"
+      responses:
+        default:
+          description: Acknowledgement of message received after successful validation of schema and signature
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Order"
+  /orders/{orderId}:
+    get:
+      tags:
+        - Order Management
+      description: Fetch an order
+      parameters:
+        - name: orderId
+          in: path
+          description: ID of the order that generated the chat session
+          required: true
+          schema:
+            $ref: '#/components/schemas/Order/properties/id'
+      responses:
+        default:
+          description: Updated order object
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Order"
+  /orders/{orderId}/updatePayment:
+    put:
+      tags:
+        - Order Management
+      description: Fetch order history
+      parameters:
+        - name: orderId
+          in: path
+          description: ID of the order that generated the chat session
+          required: true
+          schema:
+            $ref: '#/components/schemas/Order/properties/id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Payment"
+      responses:
+        default:
+          description: Acknowledgement of message received after successful validation of schema and signature
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Order"
+  /orders/{orderId}/updateFulfillment:
+    put:
+      tags:
+        - Order Management
+      description: Fetch order history
+      parameters:
+        - name: orderId
+          in: path
+          description: ID of the order that generated the chat session
+          required: true
+          schema:
+            $ref: '#/components/schemas/Order/properties/id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Fulfillment"
+      responses:
+        default:
+          description: Acknowledgement of message received after successful validation of schema and signature
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Order"
+  /orders/{orderId}/updateBilling:
+    put:
+      tags:
+        - Order Management
+      description: Fetch order history
+      parameters:
+        - name: orderId
+          in: path
+          description: ID of the order that generated the chat session
+          required: true
+          schema:
+            $ref: '#/components/schemas/Order/properties/id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Billing"
+      responses:
+        default:
+          description: Acknowledgement of message received after successful validation of schema and signature
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Order"
+  /orders/{orderId}/updateItems:
+    put:
+      tags:
+        - Order Management
+      description: Fetch order history
+      parameters:
+        - name: orderId
+          in: path
+          description: ID of the order that generated the chat session
+          required: true
+          schema:
+            $ref: '#/components/schemas/Order/properties/id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                items:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/Item"
+      responses:
+        default:
+          description: Acknowledgement of message received after successful validation of schema and signature
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Order"
+  /orders/{orderId}/updateAddOns:
+    put:
+      tags:
+        - Order Management
+      description: Fetch order history
+      parameters:
+        - name: orderId
+          in: path
+          description: ID of the order that generated the chat session
+          required: true
+          schema:
+            $ref: '#/components/schemas/Order/properties/id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                add_ons:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/AddOn"
+      responses:
+        default:
+          description: Acknowledgement of message received after successful validation of schema and signature
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Order"
+  /orders/{orderId}/cancel:
+    put:
+      tags:
+        - Order Management
+      description: Cancel order
+      parameters:
+        - name: orderId
+          in: path
+          description: ID of the order that generated the chat session
+          required: true
+          schema:
+            $ref: '#/components/schemas/Order/properties/id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: Return cancelled order
+              type: object
+              properties:
+                cancellation:
+                  $ref: "#/components/schemas/Order"
+                    
+      responses:
+        default:
+          description: Acknowledgement of message received after successful validation of schema and signature
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Order"
+
+  /fulfillments:
+    post:
+      tags:
+        - Fulfillment Management
+      description: create fulfillment to order 
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Support'
+      responses:
+        default:
+          description: Successful closure of a chat session
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Support'
+  /fulfillments/{fulfillmentId}:
+    get:
+      tags:
+        - Fulfillment Management
+      description: create a fulfillment
+      parameters:
+        - name: fulfillmentId
+          in: path
+          description: ID of the fulfillment
+          required: true
+          schema:
+            $ref: '#/components/schemas/Fulfillment/properties/id'
+      responses:
+        default:
+          description: Successful closure of a chat session
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Fulfillment'
+    put:
+      tags:
+        - Fulfillment Management
+      description: Update fulfillment state for an order
+      parameters:
+        - name: fulfillmentId
+          in: path
+          description: ID of the fulfillment
+          required: true
+          schema:
+            $ref: '#/components/schemas/Fulfillment/properties/id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FulfillmentState'
+      responses:
+        default:
+          description: Successful closure of a chat session
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Fulfillment'
+    delete:
+      tags:
+        - Fulfillment Management
+      description: Cancel the fulfillment for an order
+      parameters:
+        - name: fulfillmentId
+          in: path
+          description: ID of the order that generated the chat session
+          required: true
+          schema:
+            $ref: '#/components/schemas/Order/properties/id'
+      responses:
+        default:
+          description: Successful closure of a chat session
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Fulfillment'
+  /fulfillment/checkServiceability:
+    post:
+      tags:
+        - Fulfillment Management
+      description: Check serviceability of an order 
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Order'
+      responses:
+        default:
+          description: Serviceable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  serviceable:
+                    type: boolean
+                  fulfillment:
+                     $ref: '#/components/schemas/Fulfillment'
+  /fulfillment/{fulfillmentId}/agent/allocate:
+    put:
+      tags:
+        - Fulfillment Management
+      description: Add fulfillment to an order
+      parameters:
+        - name: fulfillmentId
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/Fulfillment/properties/id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Agent'
+      responses:
+        default:
+          description: Order with allocated agent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+  /fulfillment/{fulfillmentId}/agent/deallocate:
+    delete:
+      tags:
+        - Fulfillment Management
+      description: Add fulfillment to an order 
+      parameters:
+        - name: fulfillmentId
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/Fulfillment/properties/id'
+      responses:
+        default:
+          description: Order with agent deallocated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+  /fulfillments/generate:
+    post:
+      tags:
+        - Fulfillment Management
+      description: Generate fulfillment terms for an order
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Order'
+      responses:
+        default:
+          description: Successful fetch of fulfillment terms
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Fulfillment'
+  
+  /tracking/start:
+    post:
+      tags:
+        - Tracking Management
+      description: Start tracking order
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Order"
+      responses:
+        default:
+          description: tracking information
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tracking"
+  /tracking/stop:
+    post:
+      tags:
+        - Tracking Management
+      description: Start tracking order
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Order"
+      responses:
+        default:
+          description: tracking information
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tracking"
+  /tracking/{order_id}/update_location:
+    put:
+      tags:
+        - Tracking Management
+      description: Update location during tracking
+      parameters:
+        - name: order_id
+          description: Add location to order object
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/Order/properties/id"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Location"
+      responses:
+        default:
+          description: Acknowledgement of message received after successful validation of schema and signature
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Order"
+
+  /support/{orderId}:
+    post:
+      tags:
+        - Support Management
+      description: Generate a support request for an order
+      parameters:
+        - name: orderId
+          in: path
+          description: ID of the order that generated the support session
+          required: true
+          schema:
+            $ref: '#/components/schemas/Order/properties/id'
+      responses:
+        default:
+          description: Successful closure of a chat session
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Support'
+    get:
+      tags:
+        - Support Management
+      description: Fetch a support session
+      parameters:
+        - name: orderId
+          in: path
+          description: ID of the order that generated the chat session
+          required: true
+          schema:
+            $ref: '#/components/schemas/Order/properties/id'
+      responses:
+        default:
+          description: Successful closure of a chat session
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Support'
+    put:
+      tags:
+        - Support Management
+      description: Update a chat session
+      parameters:
+        - name: orderId
+          in: path
+          description: ID of the order that generated the chat session
+          required: true
+          schema:
+            $ref: '#/components/schemas/Order/properties/id'
+      responses:
+        default:
+          description: Successful closure of a chat session
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Support'
+    delete:
+      tags:
+        - Support Management
+      description: Close a chat session
+      parameters:
+        - name: orderId
+          in: path
+          description: ID of the order that generated the chat session
+          required: true
+          schema:
+            $ref: '#/components/schemas/Order/properties/id'
+      responses:
+        default:
+          description: Successful closure of a chat session
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Support'
+  /support/{orderId}/agent:
+    get:
+      tags:
+        - Support Management
+      description: Fetch the agent to a support session
+      parameters:
+        - name: orderId
+          in: path
+          description: ID of the order that generated the chat session
+          required: true
+          schema:
+            $ref: '#/components/schemas/Order/properties/id'
+      responses:
+        default:
+          description: Successful closure of a chat session
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Agent'
+    put:
+      tags:
+        - Support Management
+      description: Update agent for a support request
+      parameters:
+        - name: orderId
+          in: path
+          description: ID of the order that generated the chat session
+          required: true
+          schema:
+            $ref: '#/components/schemas/Order/properties/id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Support'
+      responses:
+        default:
+          description: Successful closure of a chat session
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Support'
+    delete:
+      tags:
+        - Support Management
+      description: Remove an agent from a support request
+      parameters:
+        - name: orderId
+          in: path
+          description: ID of the order that generated the chat session
+          required: true
+          schema:
+            $ref: '#/components/schemas/Order/properties/id'
+      responses:
+        default:
+          description: Successful closure of a chat session
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Support'
+
+  /forms:
+    post:
+      tags:
+        - Forms Management
+      description: BPP provides the list of entities that can be rated in its system to the BAP
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/XInput'
+      responses:
+        default:
+          description: Form object
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/XInput"
+  /forms/{formId}:
+    get:
+      tags:
+        - Forms Management
+      description: create a form
+      parameters:
+        - name: formId
+          in: path
+          description: ID of the form
+          required: true
+          schema:
+            $ref: '#/components/schemas/Form/properties/id'
+      responses:
+        default:
+          description: Successful closure of a chat session
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Fulfillment'
+    put:
+      tags:
+        - Forms Management
+      description: Update fulfillment state for an order
+      parameters:
+        - name: formId
+          in: path
+          description: ID of the fulfillment
+          required: true
+          schema:
+            $ref: '#/components/schemas/Fulfillment/properties/id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FulfillmentState'
+      responses:
+        default:
+          description: Successful closure of a chat session
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Fulfillment'
+    delete:
+      tags:
+        - Forms Management
+      description: Cancel the fulfillment for an order
+      parameters:
+        - name: formId
+          in: path
+          description: ID of the order that generated the chat session
+          required: true
+          schema:
+            $ref: '#/components/schemas/Order/properties/id'
+      responses:
+        default:
+          description: Successful closure of a chat session
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Fulfillment'
+  /generateFeedbackForRating:
+    post:
+      tags:
+        - Feedback Management
+      description: BPP provides the list of entities that can be rated in its system to the BAP
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Rating'
+      responses:
+        default:
+          description: Form object
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/XInput"
+
+
 components:
   schemas:
     Ack:
