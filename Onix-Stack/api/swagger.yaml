@@ -3,6 +3,31 @@ info:
   title: Beckn-Onix stack Transaction Layer Specification
   description: Beckn-Onix stack Transaction Layer API specification.
   version: "0.2"
+servers:
+  - url: https://ps-bap-client.becknprotocol.io
+    description: BOC Network
+tags:
+  - name: Catalog Management
+    description: Platform Administration APIs consist of all the endpoints that are used to provide user experience and manage the business workflows like catalog management, cart management, checkout, terms management, content management, etc. These follow REST Standards for the creation, read, update, and deletion of objects in the database.
+  - name: Inventory Management
+    description: Since inventory is a provider-centric feature, it does not interface with a customer. However, it is called by other services like quotation management, order management, and fulfillment management services.
+  - name: Quotation Management
+    description: Manage quotes for products or services. Includes creating, updating, and retrieving quotations.
+  - name: Terms Management
+    description: Oversee terms and conditions related to transactions. Manage legal and contractual terms for services.
+  - name: Order Management
+    description: Handle customer orders efficiently. Includes order creation, tracking, and updates.
+  - name: Fulfillment Management
+    description: Manage the process of fulfilling customer orders. Covers packaging, shipping, and delivery logistics.
+  - name: Tracking Management
+    description: Monitor and track the status of orders and shipments. Provides real-time updates and notifications.
+  - name: Support Management
+    description: Handle customer support inquiries and issues. Includes ticket creation, updates, and resolution tracking.
+  - name: Forms Management
+    description: Manage forms and documents required for transactions. Includes creation, storage, and retrieval of forms.
+  - name: Feedback Management
+    description: Collect and manage customer feedback. Analyze feedback to improve products and services.
+
 paths:
 
   /search:
