@@ -8,7 +8,7 @@ servers:
     description: BOC Network
 tags:
   - name: Catalog Management
-    description: Platform Administration APIs consist of all the endpoints that are used to provide user experience and manage the business workflows like catalog management, cart management, checkout, terms management, content management, etc. These follow REST Standards for the creation, read, update, and deletion of objects in the database.
+    description: Catalog management involves organizing and maintaining a business's product or service listings. It includes adding new items with detailed descriptions, prices, and images, as well as regularly updating this information. Products are categorized to enhance discoverability, and inventory levels are tracked to ensure availability or mark items as out of stock when necessary.
   - name: Inventory Management
     description: Since inventory is a provider-centric feature, it does not interface with a customer. However, it is called by other services like quotation management, order management, and fulfillment management services.
   - name: Quotation Management
