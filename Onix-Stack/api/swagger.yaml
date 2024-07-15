@@ -1392,11 +1392,28 @@ paths:
                   - answer
   
   
+  /catalog:
+    get:
+      tags:
+        - Catalog Management
+      description: Find all the catalogs
+      responses:
+        default:
+          $ref: '#/components/responses/CatalogResponse'
+    post:
+      tags:
+        - Catalog Management
+      description: Add a catalog
+      requestBody:
+        $ref: '#/components/requestBodies/CatalogRequest'
+      responses:
+        default:
+          $ref: '#/components/responses/CatalogResponse'
   /catalog/{resource}/{id}:
     get:
       tags:
         - Catalog Management
-      description: Find aggregator catalog of a specific resource
+      description: Find aggregator catalog of a specific resource, i.e. all the catalog of aprovider, or for a category
       parameters:
         - name: resource
           in: path
@@ -1409,7 +1426,6 @@ paths:
               - Category
               - Fulfillment
               - Payment
-              - Agent
         - name: id
           in: path
           description: ID of the Resource
@@ -1419,27 +1435,14 @@ paths:
               - $ref: '#/components/schemas/Provider/properties/id'
               - $ref: '#/components/schemas/Fulfillment/properties/id'
               - $ref: '#/components/schemas/Category/properties/id'
-              - $ref: '#/components/schemas/Agent/properties/id'
               - $ref: '#/components/schemas/Payment/properties/id'
-              - $ref: '#/components/schemas/XInput/properties/id'
       responses:
         default:
-          description: Successful fetch of resources from the catalog
-          content:
-            application/json:
-              schema:
-                oneOf:
-                  - $ref: '#/components/schemas/Item'
-                  - $ref: '#/components/schemas/Provider'
-                  - $ref: '#/components/schemas/Fulfillment'
-                  - $ref: '#/components/schemas/Category'
-                  - $ref: '#/components/schemas/Agent'
-                  - $ref: '#/components/schemas/Payment'
-                  - $ref: '#/components/schemas/XInput'
+          $ref: '#/components/responses/CatalogResponse'
     delete:
       tags:
         - Catalog Management
-      description: Update a resource to the catalog
+      description: Delete catalog of a particular resource type. i.e. delete all the catalog for a provider xxx, or the catalog which belong to a particular category. 
       parameters:
         - name: resource
           in: path
@@ -1451,7 +1454,6 @@ paths:
               - Provider
               - Category
               - Fulfillment
-              - Agent
               - Payment
         - name: id
           in: path
@@ -1462,25 +1464,14 @@ paths:
               - $ref: '#/components/schemas/Provider/properties/id'
               - $ref: '#/components/schemas/Fulfillment/properties/id'
               - $ref: '#/components/schemas/Category/properties/id'
-              - $ref: '#/components/schemas/Agent/properties/id'
               - $ref: '#/components/schemas/Payment/properties/id'
-            
       responses:
         default:
-          description: Successful fetch of resources from the catalog
-          content:
-            application/json:
-              schema:
-                oneOf:
-                  - $ref: '#/components/schemas/Provider'
-                  - $ref: '#/components/schemas/Fulfillment'
-                  - $ref: '#/components/schemas/Category'
-                  - $ref: '#/components/schemas/Agent'
-                  - $ref: '#/components/schemas/Payment'
+          $ref: '#/components/responses/CatalogResponse'
     put:
       tags:
         - Catalog Management
-      description: Add a resource to the catalog
+      description: Update the catalog for a particular resource. Updating the catalog for a particular provider. Updating catalog for a particular category.
       parameters:
         - name: resource
           in: path
@@ -1490,10 +1481,8 @@ paths:
             type: string
             enum:
               - Provider
-              - Item
               - Category
               - Fulfillment
-              - Agent
               - Payment
         - name: id
           in: path
@@ -1502,71 +1491,10 @@ paths:
           schema:
             type: string
       requestBody:
-        content:
-          application/json:
-            schema:
-              anyOf:
-                - $ref: '#/components/schemas/Provider'
-                - $ref: '#/components/schemas/Fulfillment'
-                - $ref: '#/components/schemas/Category'
-                - $ref: '#/components/schemas/Agent'
-                - $ref: '#/components/schemas/Payment'
+        $ref: '#/components/requestBodies/CatalogRequest'
       responses:
         default:
-          description: Successful fetch of resources from the catalog
-          content:
-            application/json:
-              schema:
-                oneOf:
-                  - $ref: '#/components/schemas/Item'
-                  - $ref: '#/components/schemas/Provider'
-                  - $ref: '#/components/schemas/Fulfillment'
-                  - $ref: '#/components/schemas/Category'
-                  - $ref: '#/components/schemas/Agent'
-                  - $ref: '#/components/schemas/Payment'
-  /catalog/{resource}:                
-    post:
-      tags:
-        - Catalog Management
-      description: Add a resource to the catalog
-      parameters:
-        - name: resource
-          in: path
-          description: Name of the resource
-          required: true
-          schema:
-            type: string
-            enum:
-              - Provider
-              - Item
-              - Category
-              - Fulfillment
-              - Agent
-              - Payment
-      requestBody:
-        content:
-          application/json:
-            schema:
-              anyOf:
-                - $ref: '#/components/schemas/Item'
-                - $ref: '#/components/schemas/Provider'
-                - $ref: '#/components/schemas/Fulfillment'
-                - $ref: '#/components/schemas/Category'
-                - $ref: '#/components/schemas/Agent'
-                - $ref: '#/components/schemas/Payment'
-      responses:
-        default:
-          description: Successful fetch of resources from the catalog
-          content:
-            application/json:
-              schema:
-                oneOf:
-                  - $ref: '#/components/schemas/Item'
-                  - $ref: '#/components/schemas/Provider'
-                  - $ref: '#/components/schemas/Fulfillment'
-                  - $ref: '#/components/schemas/Category'
-                  - $ref: '#/components/schemas/Agent'
-                  - $ref: '#/components/schemas/Payment'
+          $ref: '#/components/responses/CatalogResponse'
   /catalog/provider/{providerId}/{resource}/{id}:
     get:
       tags:
@@ -1586,7 +1514,6 @@ paths:
           schema:
             type: string
             enum:
-              - Item
               - Category
               - Fulfillment
               - Payment
@@ -1597,25 +1524,13 @@ paths:
           required: true
           schema:
             oneOf:
-              - $ref: '#/components/schemas/Item/properties/id'
               - $ref: '#/components/schemas/Fulfillment/properties/id'
               - $ref: '#/components/schemas/Location/properties/id'
               - $ref: '#/components/schemas/Category/properties/id'
-              - $ref: '#/components/schemas/Agent/properties/id'
               - $ref: '#/components/schemas/Payment/properties/id'
       responses:
         default:
-          description: Successful fetch of resources from the catalog
-          content:
-            application/json:
-              schema:
-                oneOf:
-                  - $ref: '#/components/schemas/Item'
-                  - $ref: '#/components/schemas/Location'
-                  - $ref: '#/components/schemas/Fulfillment'
-                  - $ref: '#/components/schemas/Category'
-                  - $ref: '#/components/schemas/Agent'
-                  - $ref: '#/components/schemas/Payment'
+          $ref: '#/components/responses/CatalogResponse'
     delete:
       tags:
         - Catalog Management
@@ -1634,11 +1549,9 @@ paths:
           schema:
             type: string
             enum:
-              - Item
               - Location
               - Category
               - Fulfillment
-              - Agent
               - Payment
         - name: id
           in: path
@@ -1646,26 +1559,13 @@ paths:
           required: true
           schema:
             oneOf:
-              - $ref: '#/components/schemas/Item/properties/id'
               - $ref: '#/components/schemas/Location/properties/id'
               - $ref: '#/components/schemas/Fulfillment/properties/id'
               - $ref: '#/components/schemas/Category/properties/id'
-              - $ref: '#/components/schemas/Agent/properties/id'
-              - $ref: '#/components/schemas/Payment/properties/id'
-            
+              - $ref: '#/components/schemas/Payment/properties/id' 
       responses:
         default:
-          description: Successful fetch of resources from the catalog
-          content:
-            application/json:
-              schema:
-                oneOf:
-                  - $ref: '#/components/schemas/Item'
-                  - $ref: '#/components/schemas/Location'
-                  - $ref: '#/components/schemas/Fulfillment'
-                  - $ref: '#/components/schemas/Category'
-                  - $ref: '#/components/schemas/Agent'
-                  - $ref: '#/components/schemas/Payment'
+          $ref: '#/components/responses/CatalogResponse'
     put:
       tags:
         - Catalog Management
@@ -1684,11 +1584,9 @@ paths:
           schema:
             type: string
             enum:
-              - Item
               - Location
               - Category
               - Fulfillment
-              - Agent
               - Payment
         - name: id
           in: path
@@ -1696,6 +1594,64 @@ paths:
           required: true
           schema:
             type: string
+      requestBody:
+        $ref: '#/components/requestBodies/CatalogRequest'
+      responses:
+        default:
+          $ref: '#/components/responses/CatalogResponse'
+ 
+  /resource/{resource}:
+    get:
+      tags:
+        - Resource Management
+      description: Find aggregator catalog of a specific resource
+      parameters:
+        - name: resource
+          in: path
+          description: Name of the resource
+          required: true
+          schema:
+            type: string
+            enum:
+              - Provider
+              - Category
+              - Fulfillment
+              - Payment
+              - Agent
+              - Item
+      responses:
+        default:
+          description: Successful fetch of resources from the catalog
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  oneOf:
+                    - $ref: '#/components/schemas/Item'
+                    - $ref: '#/components/schemas/Provider'
+                    - $ref: '#/components/schemas/Fulfillment'
+                    - $ref: '#/components/schemas/Category'
+                    - $ref: '#/components/schemas/Agent'
+                    - $ref: '#/components/schemas/Payment'
+    post:
+      tags:
+        - Resource Management
+      description: Add a resource to the catalog
+      parameters:
+        - name: resource
+          in: path
+          description: Name of the resource
+          required: true
+          schema:
+            type: string
+            enum:
+              - Provider
+              - Item
+              - Category
+              - Fulfillment
+              - Agent
+              - Payment
       requestBody:
         content:
           application/json:
@@ -1720,10 +1676,96 @@ paths:
                   - $ref: '#/components/schemas/Category'
                   - $ref: '#/components/schemas/Agent'
                   - $ref: '#/components/schemas/Payment'
-  /catalog/provider/{providerId}/{resource}:                
+  /resource/{resource}/{id}:
+    get:
+      tags:
+        - Resource Management
+      description: Find aggregator catalog of a specific resource
+      parameters:
+        - name: resource
+          in: path
+          description: Name of the resource
+          required: true
+          schema:
+            type: string
+            enum:
+              - Provider
+              - Category
+              - Fulfillment
+              - Payment
+              - Agent
+              - Item
+        - name: id
+          in: path
+          description: ID of the Resource
+          required: true
+          schema:
+            oneOf:
+              - $ref: '#/components/schemas/Provider/properties/id'
+              - $ref: '#/components/schemas/Fulfillment/properties/id'
+              - $ref: '#/components/schemas/Category/properties/id'
+              - $ref: '#/components/schemas/Agent/properties/id'
+              - $ref: '#/components/schemas/Payment/properties/id'
+              - $ref: '#/components/schemas/Item/properties/id'
+      responses:
+        default:
+          description: Successful fetch of resources from the catalog
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Item'
+                  - $ref: '#/components/schemas/Provider'
+                  - $ref: '#/components/schemas/Fulfillment'
+                  - $ref: '#/components/schemas/Category'
+                  - $ref: '#/components/schemas/Agent'
+                  - $ref: '#/components/schemas/Payment'
+    delete:
+      tags:
+        - Resource Management
+      description: Update a resource to the catalog
+      parameters:
+        - name: resource
+          in: path
+          description: Name of the resource
+          required: true
+          schema:
+            type: string
+            enum:
+              - Provider
+              - Category
+              - Fulfillment
+              - Agent
+              - Payment
+              - Item
+        - name: id
+          in: path
+          description: ID of the Resource
+          required: true
+          schema:
+            oneOf:
+              - $ref: '#/components/schemas/Provider/properties/id'
+              - $ref: '#/components/schemas/Fulfillment/properties/id'
+              - $ref: '#/components/schemas/Category/properties/id'
+              - $ref: '#/components/schemas/Agent/properties/id'
+              - $ref: '#/components/schemas/Payment/properties/id'
+            
+      responses:
+        default:
+          description: Successful fetch of resources from the catalog
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Provider'
+                  - $ref: '#/components/schemas/Fulfillment'
+                  - $ref: '#/components/schemas/Category'
+                  - $ref: '#/components/schemas/Agent'
+                  - $ref: '#/components/schemas/Payment'
+                  - $ref: '#/components/schemas/Item'
     put:
       tags:
-        - Catalog Management
+        - Resource Management
       description: Add a resource to the catalog
       parameters:
         - name: resource
@@ -1733,28 +1775,29 @@ paths:
           schema:
             type: string
             enum:
+              - Provider
               - Item
               - Category
               - Fulfillment
               - Agent
               - Payment
-        - name: providerId
+        - name: id
           in: path
-          description: ID of the provider where resource is being added
+          description: ID of the Resource
           required: true
           schema:
-            $ref: '#/components/schemas/Provider/properties/id'
+            type: string
       requestBody:
         content:
           application/json:
             schema:
               anyOf:
-                  - $ref: '#/components/schemas/Item'
-                  - $ref: '#/components/schemas/Location'
-                  - $ref: '#/components/schemas/Fulfillment'
-                  - $ref: '#/components/schemas/Category'
-                  - $ref: '#/components/schemas/Agent'
-                  - $ref: '#/components/schemas/Payment'
+                - $ref: '#/components/schemas/Provider'
+                - $ref: '#/components/schemas/Fulfillment'
+                - $ref: '#/components/schemas/Category'
+                - $ref: '#/components/schemas/Agent'
+                - $ref: '#/components/schemas/Payment'
+                - $ref: '#/components/schemas/Item'
       responses:
         default:
           description: Successful fetch of resources from the catalog
@@ -1763,12 +1806,12 @@ paths:
               schema:
                 oneOf:
                   - $ref: '#/components/schemas/Item'
-                  - $ref: '#/components/schemas/Location'
+                  - $ref: '#/components/schemas/Provider'
                   - $ref: '#/components/schemas/Fulfillment'
                   - $ref: '#/components/schemas/Category'
                   - $ref: '#/components/schemas/Agent'
                   - $ref: '#/components/schemas/Payment'
-  
+
   /inventory/checkAvailability/{resource}/{id}:
     get:
       tags:
@@ -4155,3 +4198,25 @@ components:
           description: The region of operation of this subscriber
           allOf:
             - $ref: '#/components/schemas/Location'
+  responses:
+    CatalogResponse:
+      description: Acknowledgement of message received after successful validation of schema and signature
+      content:
+        application/json:
+          schema:
+            type: object
+            additionalProperties: false
+            properties:
+              catalog:
+                $ref: '#/components/schemas/Catalog'
+  requestBodies:
+    CatalogRequest:
+      description: Acknowledgement of message received after successful validation of schema and signature
+      content:
+        application/json:
+          schema:
+            type: object
+            additionalProperties: false
+            properties:
+              catalog:
+                $ref: '#/components/schemas/Catalog'
