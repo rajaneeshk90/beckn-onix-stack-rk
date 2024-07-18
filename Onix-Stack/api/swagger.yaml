@@ -1392,6 +1392,24 @@ paths:
                   - answer
   
   
+  /catalog:
+    get:
+      tags:
+        - Catalog Management
+      description: Find aggregator catalog, returns all the types of resources. Additionally a query parameter can be used to filter based on the resources.
+      responses:
+        default:
+          description: Successful fetch of resources from the catalog
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: '#/components/schemas/Item'
+                  - $ref: '#/components/schemas/Provider'
+                  - $ref: '#/components/schemas/Fulfillment'
+                  - $ref: '#/components/schemas/Category'
+                  - $ref: '#/components/schemas/Agent'
+                  - $ref: '#/components/schemas/Payment'
   /catalog/{resource}/{id}:
     get:
       tags:
@@ -1410,6 +1428,7 @@ paths:
               - Fulfillment
               - Payment
               - Agent
+              - Item
         - name: id
           in: path
           description: ID of the Resource
@@ -1453,6 +1472,7 @@ paths:
               - Fulfillment
               - Agent
               - Payment
+              - Item
         - name: id
           in: path
           description: ID of the Resource
@@ -1464,6 +1484,7 @@ paths:
               - $ref: '#/components/schemas/Category/properties/id'
               - $ref: '#/components/schemas/Agent/properties/id'
               - $ref: '#/components/schemas/Payment/properties/id'
+              - $ref: '#/components/schemas/Item/properties/id'
             
       responses:
         default:
@@ -1477,6 +1498,7 @@ paths:
                   - $ref: '#/components/schemas/Category'
                   - $ref: '#/components/schemas/Agent'
                   - $ref: '#/components/schemas/Payment'
+                  - $ref: '#/components/schemas/Item'
     put:
       tags:
         - Catalog Management
@@ -1490,11 +1512,11 @@ paths:
             type: string
             enum:
               - Provider
-              - Item
               - Category
               - Fulfillment
               - Agent
               - Payment
+              - Item
         - name: id
           in: path
           description: ID of the Resource
@@ -1511,6 +1533,7 @@ paths:
                 - $ref: '#/components/schemas/Category'
                 - $ref: '#/components/schemas/Agent'
                 - $ref: '#/components/schemas/Payment'
+                - $ref: '#/components/schemas/Item'
       responses:
         default:
           description: Successful fetch of resources from the catalog
